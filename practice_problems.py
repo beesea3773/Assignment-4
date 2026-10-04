@@ -13,8 +13,17 @@ Output: False
 """
 
 def has_duplicates(product_ids):
-    # Your implementation here
-    pass
+    seen = set()
+
+    for product_id in product_ids:
+        if product_id in seen:
+            return True
+        seen.add(product_id)
+
+    return False
+
+# I used a set because a set will allow me to see if a product ID has already been seen. Each ID is checked 
+# once so the runtime should be 0(n)
 
 
 """
@@ -32,14 +41,18 @@ task_queue.remove_oldest_task() → "Email follow-up"
 
 class TaskQueue:
     def __init__(self):
-        # Your initialization here
-        pass
+        self.tasks = []
 
     def add_task(self, task):
-        pass
+        self.tasks.append(task)
 
     def remove_oldest_task(self):
-        pass
+        if len(self.tasks) == 0:
+            return None
+        return self.tasks.pop(0)
+
+# I used a list as a queue because tasks needed to stay in the order they were added.
+# Adding the append is 0(1), while removing the oldest task with pop(0) is 0(n)
 
 
 """
@@ -57,10 +70,28 @@ tracker.get_unique_count() → 2
 
 class UniqueTracker:
     def __init__(self):
-        pass
+        self.values = set()
 
     def add(self, value):
-        pass
+        self.values.add(value)
 
     def get_unique_count(self):
-        pass
+        return len(self.values)
+
+# I used another set this time because it automatically stores only unique values
+# Adding a value is expected 0(1), and getting the numbers of the unique values with len is 0(1)
+
+
+print(has_duplicates([10, 20, 30, 20, 40]))
+print(has_duplicates([1, 2, 3, 4, 5]))
+
+task_queue = TaskQueue()
+task_queue.add_task("Email follow-up")
+task_queue.add_task("Code review")
+print(task_queue.remove_oldest_task())
+
+tracker = UniqueTracker()
+tracker.add(10)
+tracker.add(20)
+tracker.add(10)
+print(tracker.get_unique_count())
